@@ -27,8 +27,6 @@ exports.AuthModule = AuthModule = __decorate([
             }),
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, prisma_service_1.PrismaService, local_strategy_1.LocalStrategy],
-        exports: [auth_service_1.AuthService, prisma_service_1.PrismaService, local_strategy_1.LocalStrategy],
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map
