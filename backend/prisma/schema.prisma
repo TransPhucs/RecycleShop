@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Categories {
+  CategoryID   Int        @id(map: "PK__Categori__19093A2B5060F525") @default(autoincrement())
+  CategoryName String     @db.NVarChar(100)
+  Products     Products[]
+}
+
+model OrderDetails {
+  OrderDetailID Int       @id(map: "PK__OrderDet__D3B9D30C747FDAA4") @default(autoincrement())
+  OrderID       Int?
+  ProductID     Int?
+  Quantity      Int?
+  UnitPrice     Decimal?  @db.Decimal(18, 2)
+  Orders        Orders?   @relation(fields: [OrderID], references: [OrderID], onDelete: NoAction, onUpdate: NoAction, map: "FK__OrderDeta__Order__66603565")
+  Products      Products? @relation(fields: [ProductID], references: [ProductID], onDelete: NoAction, onUpdate: NoAction, map: "FK__OrderDeta__Produ__6754599E")
+}
+
+model Orders {
+  OrderID         Int            @id(map: "PK__Orders__C3905BAF9D2D9B84") @default(autoincrement())
+  UserID          Int?
+  OrderDate       DateTime?      @default(now(), map: "DF__Orders__OrderDat__5FB337D6") @db.DateTime
+  TotalAmount     Decimal?       @db.Decimal(18, 2)
+  StatusID        Int?           @default(1, map: "DF__Orders__StatusID__60A75C0F")
+  ShippingAddress String?        @db.NVarChar(255)
+  PaymentMethod   String?        @db.NVarChar(50)
+  OrderDetails    OrderDetails[]
+  OrderStatuses   OrderStatuses? @relation(fields: [StatusID], references: [StatusID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Orders__StatusID__628FA481")
+  Users           Users?         @relation(fields: [UserID], references: [UserID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Orders__UserID__619B8048")
+}
+
+model OrderStatuses {
+  StatusID   Int      @id(map: "PK__OrderSta__C8EE204395FAD4FB") @default(autoincrement())
+  StatusName String   @db.NVarChar(50)
+  Orders     Orders[]
+}
+
+model Products {
+  ProductID           Int                @id(map: "PK__Products__B40CC6ED92F12206") @default(autoincrement())
+  ProductName         String             @db.NVarChar(200)
+  Description         String?            @db.NVarChar(Max)
+  RecycleStory        String?            @db.NVarChar(Max)
+  Price               Decimal            @db.Decimal(18, 2)
+  StockQuantity       Int?               @default(0, map: "DF__Products__StockQ__5812160E")
+  ImageURL            String?            @db.VarChar(500)
+  CategoryID          Int?
+  MaterialID          Int?
+  EnvironmentalImpact String?            @db.NVarChar(200)
+  CreatedAt           DateTime?          @default(now(), map: "DF__Products__Create__59063A47") @db.DateTime
+  OrderDetails        OrderDetails[]
+  Categories          Categories?        @relation(fields: [CategoryID], references: [CategoryID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Products__Catego__59FA5E80")
+  RecycledMaterials   RecycledMaterials? @relation(fields: [MaterialID], references: [MaterialID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Products__Materi__5AEE82B9")
+  Reviews             Reviews[]
+}
+
+model RecycledMaterials {
+  MaterialID   Int        @id(map: "PK__Recycled__C5061317BC2E8461") @default(autoincrement())
+  MaterialName String     @db.NVarChar(100)
+  Description  String?    @db.NVarChar(500)
+  Products     Products[]
+}
+
+model Reviews {
+  ReviewID   Int       @id(map: "PK__Reviews__74BC79AEA354CBB4") @default(autoincrement())
+  UserID     Int?
+  ProductID  Int?
+  Rating     Int?
+  Comment    String?   @db.NVarChar(500)
+  ReviewDate DateTime? @default(now(), map: "DF__Reviews__ReviewD__6B24EA82") @db.DateTime
+  Products   Products? @relation(fields: [ProductID], references: [ProductID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Reviews__Product__6D0D32F4")
+  Users      Users?    @relation(fields: [UserID], references: [UserID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Reviews__UserID__6C190EBB")
+}
+
+model Roles {
+  RoleID   Int     @id(map: "PK__Roles__8AFACE3A9A653B69") @default(autoincrement())
+  RoleName String  @unique(map: "UQ__Roles__8A2B61607EA28A3A") @db.NVarChar(50)
+  Users    Users[]
+}
+
+model Users {
+  UserID       Int       @id(map: "PK__Users__1788CCAC3AD0D8A9") @default(autoincrement())
+  FullName     String    @db.NVarChar(100)
+  Email        String    @unique(map: "UQ__Users__A9D105344A6DD841") @db.VarChar(100)
+  PasswordHash String    @db.VarChar(255)
+  PhoneNumber  String?   @db.VarChar(15)
+  Address      String?   @db.NVarChar(255)
+  RoleID       Int?      @default(2, map: "DF__Users__RoleID__4E88ABD4")
+  CreatedAt    DateTime? @default(now(), map: "DF__Users__CreatedAt__4F7CD00D") @db.DateTime
+  Orders       Orders[]
+  Reviews      Reviews[]
+  Roles        Roles?    @relation(fields: [RoleID], references: [RoleID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Users__RoleID__5070F446")
+}
