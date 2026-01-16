@@ -18,6 +18,7 @@ const user_service_1 = require("./user.service");
 const user_request_dto_1 = require("./DTO/user.request.dto");
 const user_changePass_dto_1 = require("./DTO/user.changePass.dto");
 const user_delete_dto_1 = require("./DTO/user.delete.dto");
+const jwt_auth_guard_1 = require("../Auth/jwt-auth.guard");
 let UserController = class UserController {
     userService;
     constructor(userService) {
@@ -54,6 +55,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUser", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Put)(`update/:id`),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -62,6 +64,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateUser", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Put)(`changpassword/:id`),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -70,6 +73,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "changpassword", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(`get/:id`),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -77,12 +81,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(`getMany`),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findMany", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Delete)('delete/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -90,6 +96,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteOne", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Delete)('deleteMany'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
