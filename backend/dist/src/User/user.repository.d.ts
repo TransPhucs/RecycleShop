@@ -4,63 +4,63 @@ export declare class UserRepository {
     private readonly prisma;
     constructor(prisma: PrismaService);
     findOne(UserID: number): Promise<{
-        UserID: number;
-        Email: string;
         FullName: string;
+        Email: string;
         PasswordHash: string;
         PhoneNumber: string | null;
         Address: string | null;
         RoleID: number | null;
+        UserID: number;
         CreatedAt: Date | null;
     } | null>;
     findAll(): Promise<{
-        UserID: number;
-        Email: string;
         FullName: string;
+        Email: string;
         PasswordHash: string;
         PhoneNumber: string | null;
         Address: string | null;
         RoleID: number | null;
+        UserID: number;
         CreatedAt: Date | null;
     }[]>;
     create(createUserDto: UserRequestDto): Promise<{
-        UserID: number;
-        Email: string;
         FullName: string;
+        Email: string;
         PasswordHash: string;
         PhoneNumber: string | null;
         Address: string | null;
         RoleID: number | null;
+        UserID: number;
         CreatedAt: Date | null;
     }>;
     update(UserID: number, UpdateUserDto: UserRequestDto): Promise<{
-        UserID: number;
-        Email: string;
         FullName: string;
+        Email: string;
         PasswordHash: string;
         PhoneNumber: string | null;
         Address: string | null;
         RoleID: number | null;
+        UserID: number;
         CreatedAt: Date | null;
     }>;
     updatePassword(UserID: number, newHash: string): Promise<{
-        UserID: number;
-        Email: string;
         FullName: string;
+        Email: string;
         PasswordHash: string;
         PhoneNumber: string | null;
         Address: string | null;
         RoleID: number | null;
+        UserID: number;
         CreatedAt: Date | null;
     }>;
     deleteOne(UserID: number): Promise<{
-        UserID: number;
-        Email: string;
         FullName: string;
+        Email: string;
         PasswordHash: string;
         PhoneNumber: string | null;
         Address: string | null;
         RoleID: number | null;
+        UserID: number;
         CreatedAt: Date | null;
     }>;
     deleteMany(UserIDs: number[]): Promise<import(".prisma/client").Prisma.BatchPayload>;
