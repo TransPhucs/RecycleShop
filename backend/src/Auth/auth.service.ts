@@ -31,6 +31,40 @@ export class AuthService {
         return null;
     }
 
+    // src/Auth/auth.service.ts
+
+    async validateGoogleUser(googleUser: any) {
+        const { email, firstName, lastName, picture, googleId } = googleUser;
+
+        let user = await this.prismaService.users.findUnique({
+            where: {
+                Email: email
+            },
+        });
+
+        if (user) {
+            if (!user.googleId) {
+                user = await this.prismaService.users.update({
+                    where: { Email: email },
+                    data: { googleId, avatar: picture, provider: 'google' },
+                });
+            }
+        } else {
+            user = await this.prismaService.users.create({
+                data: {
+                    Email: email, // Gán email vào cột Email
+                    FullName: `${firstName} ${lastName}`,
+                    PasswordHash: '',
+                    avatar: picture,
+                    googleId,
+                    provider: 'google',
+                },
+            });
+        }
+
+        return this.authLogin(user);
+    }
+
     async authLogin(user: any) {
         const payload = {sub: user.UserID, fullname: user.fullname, email: user.email, phone: user.phone, role: user.role};
         return{
