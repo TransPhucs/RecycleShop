@@ -91,6 +91,9 @@ model Users {
   PasswordHash String    @db.VarChar(255)
   PhoneNumber  String?   @db.VarChar(15)
   Address      String?   @db.NVarChar(255)
+  googleId     String?   @unique @db.VarChar(255)
+  avatar       String?   @db.NVarChar(500)
+  provider     String?   @default("local") @db.VarChar(50)
   RoleID       Int?      @default(2, map: "DF__Users__RoleID__4E88ABD4")
   CreatedAt    DateTime? @default(now(), map: "DF__Users__CreatedAt__4F7CD00D") @db.DateTime
   Orders       Orders[]

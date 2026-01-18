@@ -7,6 +7,10 @@ export declare class AuthService {
     private readonly jwtService;
     constructor(prismaService: PrismaService, userService: UserService, jwtService: JwtService);
     validate(email: string, password: string): Promise<any>;
+    validateGoogleUser(googleUser: any): Promise<{
+        token: string;
+        user: any;
+    }>;
     authLogin(user: any): Promise<{
         token: string;
         user: any;
